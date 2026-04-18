@@ -26,7 +26,7 @@ class _MyTasksViewState extends State<MyTasksView> {
   }
 
   List<String> stages = ['All', 'Ongoing', 'Completed'];
- dynamic expandKey;
+  dynamic expandKey;
 
   @override
   Widget build(BuildContext context) {
@@ -83,81 +83,138 @@ class _MyTasksViewState extends State<MyTasksView> {
             ),
           ),
           Expanded(
-            child: Consumer<TaskViewModel>(builder: (key, provider, child){
-                  if (provider.tasks.isEmpty) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.workspaces_filled, size: 50,),
-                        Text('No Task', style: Theme.of(context).textTheme.headlineMedium,),
-                        Text('All your task will be displayed here', style: Theme.of(context).textTheme.bodySmall,),
-                      ],
-                    );
-                  }
-                  return ListView.builder(
-                    padding: const EdgeInsets.all(20),
-                    itemCount: provider.tasks.length,
-                    itemBuilder: (context, index) {
-                      final task = provider.tasks[index];
-                      final key = provider.taskBox.keyAt(index);
-                      return taskColumn(context, task, key);
-                    },
+            child: Consumer<TaskViewModel>(
+              builder: (key, provider, child) {
+                if (provider.tasks.isEmpty) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.workspaces_filled, size: 50),
+                      Text(
+                        'No Task',
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                      Text(
+                        'All your task will be displayed here',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
                   );
-            })
+                }
+                return ListView.builder(
+                  padding: const EdgeInsets.all(20),
+                  itemCount: provider.tasks.length,
+                  itemBuilder: (context, index) {
+                    final task = provider.tasks[index];
+                    final key = provider.taskBox.keyAt(index);
+                    return taskColumn(context, task, key, index);
+                  },
+                );
+              },
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget taskColumn(BuildContext context, TaskModel task, dynamic key) {
+  Widget taskColumn(BuildContext context, TaskModel task, dynamic key, int index) {
     // List<TaskModel> allTasks =[];
 
     final isExpand = expandKey == key;
-    return  Container(
+    return Container(
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.borderGrey, width: 2),
         borderRadius: BorderRadius.circular(10.0),
         color: Theme.of(context).scaffoldBackgroundColor,
       ),
       child: ListTile(
-          title: Text(task.title),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                task.description ?? '(No description)',
-                style: isExpand ? null : TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15),
-              ),
-              Text(formatD(task.taskTime), style: TextStyle(fontSize: 15),)
-            ],
+        title: Text(task.title),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              task.description ?? '(No description)',
+              style: isExpand
+                  ? null
+                  : TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15),
+            ),
+            Text(formatD(task.taskTime), style: TextStyle(fontSize: 15)),
+          ],
+        ),
+        leading: CircleAvatar(
+          child: Text(
+            task.title[0].toUpperCase(),
+            style: Theme.of(context).textTheme.headlineMedium,
           ),
-          leading: CircleAvatar(child: Text(task.title[0].toUpperCase(), style: Theme.of(context).textTheme.headlineMedium,)),
-          tileColor: Colors.white,
-          style: ListTileStyle.drawer,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          onTap: () {
-            setState(() {
-              expandKey = isExpand ? null: key;
-            });
-          },
-          trailing: PopupMenuButton(
-            onSelected: (value) {
-              if (value == 'mark') {
-                context.read<TaskViewModel>().toggleRead(key);
-              } else if (value == 'edit') {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> AddTaskView(task: task, taskKey: key,),),);
-              } else if (value == 'delete') {
-                context.read<TaskViewModel>().deleteTask(key);
-              }
-            },
-            itemBuilder: (context) => [
+        ),
+        tileColor: Colors.white,
+        style: ListTileStyle.drawer,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        onTap: () {
+          setState(() {
+            expandKey = isExpand ? null : key;
+          });
+        },
+        trailing: PopupMenuButton(
+          onSelected: (value) {
+            if (value == 'mark') {
+              context.read<TaskViewModel>().toggleRead(key);
+            } else if (value == 'edit') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddTaskView(task: task, taskKey: index),
+                ),
+              );
+            } else if (value == 'delete') {
+    // context.read<TaskViewModel>().deleteTask(key);
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  icon: Icon(Icons.warning_amber),
+                  iconColor: AppColors.declined,
+                  content: Text(
+                    'Are you sure you want to delete this task? Deleted task cannot be retrieved',
+                    textAlign: TextAlign.center,
+                  ),
+                  actions: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        context.read<TaskViewModel>().deleteTask(key); },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.declined,
+                        foregroundColor: Colors.white
+                      ),
+                      child: Text('Delete'),
+                    ),const SizedBox(width: 20,),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey,
+                          foregroundColor: Colors.white
+                      ),
+                      child: Text('Cancel'),
+                    ),
+                  ],
+                ),
+              );
 
-              PopupMenuItem(value: 'edit', child: const Text('Edit'),),
-              PopupMenuItem(value: 'delete',child: const Text('Delete')),
-              PopupMenuItem(value: 'mark',child: Text(task.completed? 'UnMark as complete':  'Mark as complete')),
-            ],
-          ),
+            }
+          },
+          itemBuilder: (context) => [
+            PopupMenuItem(value: 'edit', child: const Text('Edit')),
+            PopupMenuItem(value: 'delete', child: const Text('Delete')),
+            PopupMenuItem(
+              value: 'mark',
+              child: Text(
+                task.completed ? 'UnMark as complete' : 'Mark as complete',
+              ),
+            ),
+          ],
+        ),
         contentPadding: const EdgeInsets.all(5.0),
       ),
     );
@@ -169,11 +226,17 @@ class _MyTasksViewState extends State<MyTasksView> {
     required Function(bool) onSelect,
   }) {
     return ChoiceChip(
-      label: Text(title, style: TextStyle(color: select? AppColors.lightBackground: AppColors.darkPrimary),),
+      label: Text(
+        title,
+        style: TextStyle(
+          color: select ? AppColors.lightBackground : AppColors.darkPrimary,
+        ),
+      ),
       side: BorderSide.none,
       selected: select,
       showCheckmark: false,
       onSelected: onSelect,
       backgroundColor: select ? AppColors.primary : AppColors.borderGrey,
-    );}
+    );
+  }
 }

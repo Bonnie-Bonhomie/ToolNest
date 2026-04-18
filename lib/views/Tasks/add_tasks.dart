@@ -27,7 +27,7 @@ class _AddTaskViewState extends State<AddTaskView> {
   final TextEditingController dateCtrl = TextEditingController();
 
   formatD(DateTime date) {
-    final formatDate = DateFormat("MMM d, YYYY").format(date);
+    final formatDate = DateFormat("yyyy-MM-dd").format(date);
     return formatDate;
   }
 
@@ -61,11 +61,12 @@ class _AddTaskViewState extends State<AddTaskView> {
       );
 
       viewModel.updateTask(widget.taskKey!, updatedTask);
+      print('Task Added');
     } else {
       //Add task function
       viewModel.addTask(title, description, false, taskDate);
     }
-    print('Task Added');
+
     Navigator.pop(context);
   }
 
