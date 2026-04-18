@@ -26,16 +26,7 @@ Language: Dart
 State Management: Provider
 Local Database: Hive
 API Integration: Dio
-📂 Project Structure
 
-lib/
-│
-├── data/# Data models (Task, Conversion)
-├── viewmodels/       # State management (Provider)
-├── views/         # UI screens
-├── utils/         # Reusable components
-├── services/        # API and business logic
-└── main.dart        # App entry point
 
 
 ⚙️ Installation
