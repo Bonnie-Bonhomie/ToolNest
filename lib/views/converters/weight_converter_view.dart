@@ -37,7 +37,6 @@ class WeightConverterView extends StatelessWidget {
                       Row(
                         children: [
                           ValueContainer(
-                            width: 50,
                             child: DropdownButton(
                               underline: SizedBox(),
                               value: watchModel.fromUnit,
@@ -59,7 +58,6 @@ class WeightConverterView extends StatelessWidget {
                           ),
                           Expanded(
                             child: ValueContainer(
-                              // width: 200,
                               child: InputField(
                                 input: input,
                                 onChanged: (val) {
@@ -76,7 +74,6 @@ class WeightConverterView extends StatelessWidget {
                       Row(
                         children: [
                           ValueContainer(
-                            width: 50,
                             child: DropdownButton(
                               underline: SizedBox(),
                               value: watchModel.toUnit,

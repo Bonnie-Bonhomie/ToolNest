@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tool_nest/config/AppRoutes/route_name.dart';
+import 'package:tool_nest/views/Tasks/add_tasks.dart';
+import 'package:tool_nest/views/Tasks/my_task_view.dart';
 import 'package:tool_nest/views/converters/currency_converter_view.dart';
 import 'package:tool_nest/views/converters/length_converter.dart';
 import 'package:tool_nest/views/converters/temp_converter_view.dart';
@@ -13,5 +15,8 @@ class AppRoutes{
     Routes.currency: (context) => CurrencyConverterView(),
     Routes.length: (context) => LengthConverterView(),
     Routes.weight: (context) => WeightConverterView(),
+
+    Routes.task: (context) => MyTasksView(),
+    Routes.addTask: (context) => AddTaskView(),
   };
 }

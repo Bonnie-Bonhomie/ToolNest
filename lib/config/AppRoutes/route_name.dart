@@ -5,4 +5,7 @@ class Routes{
   static const String length = '/length';
   static const String currency = '/currency';
   static const String weight = '/weight';
+
+  static const String task = '/task';
+  static const String addTask = '/addTask';
 }

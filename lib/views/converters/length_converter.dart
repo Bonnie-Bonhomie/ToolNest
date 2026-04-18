@@ -37,7 +37,6 @@ class LengthConverterView extends StatelessWidget {
                       Row(
                         children: [
                           ValueContainer(
-                            width: 50,
                             child: DropdownButton(
                               underline: SizedBox(),
                               value: watchModel.fromUnit,
@@ -58,7 +57,6 @@ class LengthConverterView extends StatelessWidget {
                           ),
                           Expanded(
                             child: ValueContainer(
-                              width: 200,
                               child: InputField(input: input, onChanged: (val) {
                                 context.read<LengthViewModel>().setInput(val);
                                 context.read<LengthViewModel>().convertToUnit();
@@ -72,7 +70,6 @@ class LengthConverterView extends StatelessWidget {
                       Row(
                         children: [
                           ValueContainer(
-                            width: 50,
                             child: DropdownButton(
                               underline: SizedBox(),
                               value: watchModel.toUnit,
@@ -92,7 +89,6 @@ class LengthConverterView extends StatelessWidget {
                           ),
                           Expanded(
                             child: ValueContainer(
-                              width: 300,
                               child: Text(
                                 num.parse(watchModel.output.toStringAsFixed(6)).toString(),
                                 textAlign: TextAlign.end,

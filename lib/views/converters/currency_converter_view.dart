@@ -39,11 +39,10 @@ class _CurrencyConverterViewState extends State<CurrencyConverterView> {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 20),
-                      Text('You convert From'),
+                      const Text('You convert From'),
                       Row(
                         children: [
                           ValueContainer(
-                            width: 50,
                             child: DropdownButton(
                               underline: const SizedBox(),
                               value: watchModel.fromUnit,
@@ -71,7 +70,6 @@ class _CurrencyConverterViewState extends State<CurrencyConverterView> {
                           ),
                           Expanded(
                             child: ValueContainer(
-                              width: 200,
                               child: InputField(
                                 input: input,
                                 onChanged: (val) {
@@ -88,11 +86,10 @@ class _CurrencyConverterViewState extends State<CurrencyConverterView> {
                         ],
                       ),
                       const SizedBox(height: 40),
-                      Text('You Get'),
+                      const Text('You Get'),
                       Row(
                         children: [
                           ValueContainer(
-                            width: 50,
                             child: DropdownButton(
                               underline: const SizedBox(),
                               value: watchModel.toUnit,
@@ -120,7 +117,6 @@ class _CurrencyConverterViewState extends State<CurrencyConverterView> {
                           ),
                           Expanded(
                             child: ValueContainer(
-                              width: 300,
                               child: Text(
                                 num.parse(
                                   watchModel.output.toStringAsFixed(6),

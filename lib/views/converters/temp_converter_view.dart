@@ -39,7 +39,6 @@ class _TempConverterViewState extends State<TempConverterView> {
                       Row(
                         children: [
                           ValueContainer(
-                            width: 50,
                             child: DropdownButton(
                               underline: const SizedBox(),
                               value: wTemp.fromUnit,
@@ -57,7 +56,6 @@ class _TempConverterViewState extends State<TempConverterView> {
                           ),
                           Expanded(
                             child: ValueContainer(
-                              width: 200,
                             child: InputField(input: input, onChanged: (val){
                               context.read<TempViewModel>().setInput(val);
                               context.read<TempViewModel>().convertToUnit();
@@ -70,7 +68,6 @@ class _TempConverterViewState extends State<TempConverterView> {
                       Row(
                         children: [
                           ValueContainer(
-                            width: 50,
                             child: DropdownButton(
                               underline: const SizedBox(),
                               value: wTemp.toUnit,
@@ -88,7 +85,6 @@ class _TempConverterViewState extends State<TempConverterView> {
                           ),
                           Expanded(
                             child: ValueContainer(
-                              width: 300,
                               child: Text(num.parse(wTemp.output.toStringAsFixed(6)).toString(), textAlign: TextAlign.end,)),
                           ),
                         ],
